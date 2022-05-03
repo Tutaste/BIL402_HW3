@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -15,13 +18,14 @@ import spark.template.mustache.MustacheTemplateEngine;
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.port;
+import static spark.Spark.before;
 
 public class App {
     public String getGreeting() {
         return "Hello World!";
     }
 
-    
+    private static Logger log = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
         System.out.println(new App().getGreeting());
@@ -29,10 +33,10 @@ public class App {
         get("/compute", (rq,rs) -> {
           Map<String,String> map = new HashMap<String,String>();
           map.put("result", "not computed yet!");
-          return new ModelAndView(map, "compute.mustache");
-        },
-        new MustacheTemplateEngine()
-        );
+          return new MustacheTemplateEngine().render(
+            new ModelAndView(map, "compute.mustache")
+          );
+        });
 
         post("/compute", (req,res) -> {
           String input1 = req.queryParams("input1");
@@ -53,10 +57,14 @@ public class App {
           boolean result = App.search(inputList, input2AsInt);
           Map<String,Boolean> map = new HashMap<String,Boolean>();
           map.put("result", result);
-          return new ModelAndView(map, "compute.mustache");
-        },
-        new MustacheTemplateEngine()
-        );
+          return new MustacheTemplateEngine().render(
+            new ModelAndView(map, "compute.mustache")
+            );
+        });
+
+        before((req,res) -> {
+          log.info(String.format("%s %s", req.requestMethod(), req.url()));
+        });
 
     }
 
