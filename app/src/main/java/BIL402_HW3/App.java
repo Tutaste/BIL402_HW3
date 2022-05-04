@@ -28,6 +28,11 @@ public class App {
     private static Logger log = LoggerFactory.getLogger(App.class);
 
     public static void main(String[] args) {
+
+        int port = Integer.parseInt(System.getenv("PORT"));
+        port(port);
+
+
         System.out.println(new App().getGreeting());
 
         get("/compute", (rq,rs) -> {
