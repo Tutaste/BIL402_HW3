@@ -29,4 +29,9 @@ class AppTest {
         assertFalse(App.BiggerThanSum(null, 1, 2, 3));
     }
 
+    @Test public void testValueZero(){
+        ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(1,2,3,4));
+        assertFalse(App.BiggerThanSum(arr, 0, 0, 0));
+    }
+
 }

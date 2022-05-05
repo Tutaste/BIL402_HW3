@@ -82,10 +82,12 @@ public class App {
         return false;
       }
 
-      int sum = first + second + last;
-      for (int elm:arr){
-        if(elm >= sum){
-          return true;
+      if(first != 0 & second != 0 & last != 0){
+        int sum = first + second + last;
+        for (int elm:arr){
+          if(elm >= sum){
+            return true;
+          }
         }
       }
       return false;
