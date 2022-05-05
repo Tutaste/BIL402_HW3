@@ -5,19 +5,12 @@
         <style>
             @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
-            .login-page {
+            .container {
             width: 400px;
             padding: 8% 0 0;
             margin: auto;
             }
-            textarea {
-            resize: none;
-            width: 100%;
-            height: 60px; 
-            box-sizing: border-box;
-            border:solid 1px grey;
-            
-            }
+
             .form {
             position: relative;
             z-index: 1;
@@ -27,6 +20,14 @@
             padding: 45px;
             text-align: center;
             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+            }
+
+            .form textarea {
+            resize: none;
+            width: 100%;
+            height: 60px; 
+            box-sizing: border-box;
+            border:solid 1px grey;
             }
 
             .form input {
@@ -43,9 +44,11 @@
             transition: all 0.3 ease;
             cursor: pointer;
             }
+
             .form input:hover,.form input:active,.form input:focus {
             background: #43A047;
             }
+
             body {
             background: #76b852; /* fallback for old browsers */
             background: rgb(141,194,111);
@@ -57,21 +60,21 @@
         </style>
     </head>
     <body>
-        <div class="login-page">
-        <div class="form">
-            <h1>BIL402-HW3</h1>
-        <p>Girililen dizide üç sayının toplamından büyük eleman varsa çıktı 'True' olacaktır.</p>
-            <form class="login-form" action="compute" method="post">
-            <textarea name="arr" placeholder="Kontrol edilecek dizi."></textarea>
-            <textarea name="first" placeholder="Bir sayı giriniz."></textarea>
-            <textarea name="second" placeholder="Bir sayı giriniz."></textarea>
-            <textarea name="last" placeholder="Bir sayı giriniz."></textarea>
-            <input type="submit" value="Hesapla"/>
-            {{#result}}
-            <p>Sonuç: {{result}}</p>
-            {{/result}}
-            </form>
-        </div>
+        <div class="container">
+            <div class="form">
+                <h1>BIL402-HW3</h1>
+                <p>Girililen dizide üç sayının toplamından büyük eleman varsa çıktı 'True' olacaktır.</p>
+                <form action="compute" method="post">
+                <textarea name="arr" placeholder="Kontrol edilecek dizi."></textarea>
+                <textarea name="first" placeholder="Bir sayı giriniz."></textarea>
+                <textarea name="second" placeholder="Bir sayı giriniz."></textarea>
+                <textarea name="last" placeholder="Bir sayı giriniz."></textarea>
+                <input type="submit" value="Hesapla"/>
+                {{#result}}
+                <p>{{result}}</p>
+                {{/result}}
+                </form>
+            </div>
         </div>
     </body>
 </html>

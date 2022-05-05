@@ -11,9 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
 import spark.template.mustache.MustacheTemplateEngine;
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -21,9 +18,6 @@ import static spark.Spark.port;
 import static spark.Spark.before;
 
 public class App {
-    // public String getGreeting() {
-    //     return "Hello World!";
-    // }
 
     private static Logger log = LoggerFactory.getLogger(App.class);
 
@@ -32,16 +26,19 @@ public class App {
         int port = Integer.parseInt(System.getenv("PORT"));
         port(port);
 
-
-        // System.out.println(new App().getGreeting());
-
+        get("/", (rq,rs) -> {
+          rs.redirect("/compute");
+          return null;
+        });
+        
         get("/compute", (rq,rs) -> {
           Map<String,String> map = new HashMap<String,String>();
-          // map.put("result", "not computed yet!");
           return new MustacheTemplateEngine().render(
             new ModelAndView(map, "compute.mustache")
           );
         });
+
+
 
         post("/compute", (req,res) -> {
           String arr = req.queryParams("arr");
@@ -60,8 +57,14 @@ public class App {
           System.out.println(inputList);
 
           boolean result = App.BiggerThanSum(inputList, first, second, last);
-          Map<String,Boolean> map = new HashMap<String,Boolean>();
-          map.put("result", result);
+          Map<String,String> map = new HashMap<String,String>();
+
+          if (result){
+            map.put("result", "Sonuç: TRUE");
+          }
+          else {
+            map.put("result", "Sonuç: FALSE");
+          }
           return new MustacheTemplateEngine().render(
             new ModelAndView(map, "compute.mustache")
             );
@@ -88,20 +91,4 @@ public class App {
       return false;
     }
 
-    // public static boolean search(ArrayList<Integer> arr, int e){
-    //     System.out.println("Inside search");
-    //     if (arr == null ) {
-    //       return false;
-    //     }
-  
-    //     for (int elt:arr) {
-    //       if (elt==e) {
-    //         return true;
-    //       }
-    //     }
-    //     return false;
-  
-    // }
-
-   
 }
