@@ -21,9 +21,9 @@ import static spark.Spark.port;
 import static spark.Spark.before;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+    // public String getGreeting() {
+    //     return "Hello World!";
+    // }
 
     private static Logger log = LoggerFactory.getLogger(App.class);
 
@@ -33,20 +33,23 @@ public class App {
         port(port);
 
 
-        System.out.println(new App().getGreeting());
+        // System.out.println(new App().getGreeting());
 
         get("/compute", (rq,rs) -> {
           Map<String,String> map = new HashMap<String,String>();
-          map.put("result", "not computed yet!");
+          // map.put("result", "not computed yet!");
           return new MustacheTemplateEngine().render(
             new ModelAndView(map, "compute.mustache")
           );
         });
 
         post("/compute", (req,res) -> {
-          String input1 = req.queryParams("input1");
+          String arr = req.queryParams("arr");
+          Integer first = Integer.parseInt(req.queryParams("first").replaceAll("\\s", ""));
+          Integer second = Integer.parseInt(req.queryParams("second").replaceAll("\\s", ""));
+          Integer last = Integer.parseInt(req.queryParams("last").replaceAll("\\s", ""));
 
-          java.util.Scanner sc1 = new java.util.Scanner(input1);
+          java.util.Scanner sc1 = new java.util.Scanner(arr);
           sc1.useDelimiter("[;\r\n]+");
           java.util.ArrayList<Integer> inputList = new java.util.ArrayList<>();
           while(sc1.hasNext()){
@@ -56,10 +59,7 @@ public class App {
           sc1.close();
           System.out.println(inputList);
 
-          String input2 = req.queryParams("input2").replaceAll("\\s", "");
-          int input2AsInt = Integer.parseInt(input2);
-
-          boolean result = App.search(inputList, input2AsInt);
+          boolean result = App.BiggerThanSum(inputList, first, second, last);
           Map<String,Boolean> map = new HashMap<String,Boolean>();
           map.put("result", result);
           return new MustacheTemplateEngine().render(
@@ -73,18 +73,35 @@ public class App {
 
     }
 
-    public static boolean search(ArrayList<Integer> arr, int e){
-        System.out.println("Inside search");
-        if (arr == null ) {
-          return false;
-        }
-  
-        for (int elt:arr) {
-          if (elt==e) {
-            return true;
-          }
-        }
+    public static boolean BiggerThanSum(ArrayList<Integer> arr, int first, int second, int last){
+      // Girilen üç sayının toplamından büyük en az bir elemanı varsa dizinin true döndür.
+      if(arr == null){
         return false;
-  
+      }
+
+      int sum = first + second + last;
+      for (int elm:arr){
+        if(elm >= sum){
+          return true;
+        }
+      }
+      return false;
     }
+
+    // public static boolean search(ArrayList<Integer> arr, int e){
+    //     System.out.println("Inside search");
+    //     if (arr == null ) {
+    //       return false;
+    //     }
+  
+    //     for (int elt:arr) {
+    //       if (elt==e) {
+    //         return true;
+    //       }
+    //     }
+    //     return false;
+  
+    // }
+
+   
 }

@@ -10,28 +10,23 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
-    }
-    
-    @Test public void testFound(){
-        ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(1,2,3,4));
-        assertTrue(App.search(arr, 4));
+    @Test public void testHasBiggerValue(){
+        ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(2,18,12,10));
+        assertTrue(App.BiggerThanSum(arr, 3, 5, 7));
     }
 
-    @Test public void testNotFound(){
+    @Test public void testHasNotBiggerValue(){
         ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(1,2,3,4));
-        assertFalse(App.search(arr, 5));
+        assertFalse(App.BiggerThanSum(arr, 3, 5, 7));
     }
 
     @Test public void testEmptyArray(){
         ArrayList<Integer> arr = new ArrayList<>();
-        assertFalse(App.search(arr, 1));
+        assertFalse(App.BiggerThanSum(arr, 1, 2, 3));
     }
 
     @Test public void testNull(){
-        assertFalse(App.search(null, 1));
+        assertFalse(App.BiggerThanSum(null, 1, 2, 3));
     }
 
 }
